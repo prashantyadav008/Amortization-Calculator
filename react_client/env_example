@@ -1,0 +1,15 @@
+# Network Chain ID
+
+REACT_APP_ChainId = 80001
+
+# Alchemy Api URl for Polygon Mumbai Network Network
+
+REACT_APP_ALCHEMY_POLYGON_NAME = Mumbai Polygon testnet
+REACT_APP_ALCHEMY_POLYGON_API_KEY =
+REACT_APP_ALCHEMY_POLYGON_SITE_URL = https://mumbai.polygonscan.com/
+
+REACT_APP_ALCHEMY_POLYGON_SYMBOL = MATIC
+
+# Contract Addresses
+
+EMI_Contract = ; 
