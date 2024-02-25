@@ -29,10 +29,14 @@ export const EMICalculator = () => {
 
   const handleLoanTenureChange = (e) => {
     const value = e.target.value;
-    setLoanTenure((prevTenure) => ({
-      ...prevTenure,
+
+    let duration = document.getElementById("loanterm").value;
+    let newValue = value == "year" ? duration / 12 : duration * 12;
+
+    setLoanTenure({
+      value: newValue,
       unit: value,
-    }));
+    });
   };
 
   return (
