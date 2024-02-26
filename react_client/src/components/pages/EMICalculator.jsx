@@ -4,7 +4,7 @@ import "../../assets/css/jquery-ui.css";
 import "../../assets/css/calculator.css";
 
 export const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(2500000); // Default: ₹25,00,000
+  const [loanAmount, setLoanAmount] = useState(20000000); // Default: ₹25,00,000
   const [interestRate, setInterestRate] = useState(10.5); // Default: 10.5%
   const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
 
@@ -42,6 +42,11 @@ export const EMICalculator = () => {
     });
   };
 
+  const handleSliderChange = (e) => {
+    const amount = parseInt(e.target.value);
+    setLoanAmount(amount);
+  };
+
   return (
     <>
       <div className="calculatorcontainer">
@@ -52,13 +57,13 @@ export const EMICalculator = () => {
                 <form id="emicalculatorform">
                   <div className="form-horizontal" id="emicalculatorinnerform">
                     {/* Loan Amount */}
+
                     <div className="row form-group lamount">
                       <label
                         className="col-lg-4 control-label"
-                        for="loanamount">
+                        htmlFor="loanamount">
                         Loan Amount
                       </label>
-
                       <div className="col-lg-6">
                         <div className="input-group">
                           <input
@@ -66,83 +71,71 @@ export const EMICalculator = () => {
                             id="loanamount"
                             name="loanamount"
                             value={loanAmount}
-                            type="tel"
+                            type="number"
                             onChange={handleLoanAmountChange}
                           />
                           <div className="input-group-append">
                             <span className="input-group-text">$/₹</span>
                           </div>
                         </div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="5000000"
-                          value={loanAmount}
-                          onChange={(e) =>
-                            setLoanAmount(parseInt(e.target.value))
-                          }
-                        />
                       </div>
                     </div>
-                    <div className="loanAmountSlider">
-                      <div
-                        id="loanamountslider"
-                        className="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                        <div
-                          className="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min"
-                          style={{ width: "100%" }}></div>
-                        <span
-                          tabIndex="0"
-                          className="ui-slider-handle ui-corner-all ui-state-default"
-                          style={{ left: "100%" }}></span>
-                      </div>
 
-                      <div id="loanamountsteps" className="steps">
-                        <span className="tick" style={{ left: "0%" }}>
-                          |<br />
-                          <span className="marker">0</span>
-                        </span>
-                        <span
-                          className="tick d-none d-sm-table-cell"
-                          style={{ left: "12.5%" }}>
-                          |<br />
-                          <span className="marker">25L</span>
-                        </span>
-                        <span className="tick" style={{ left: "25%" }}>
-                          |<br />
-                          <span className="marker">50L</span>
-                        </span>
-                        <span
-                          className="tick d-none d-sm-table-cell"
-                          style={{ left: "37.5%" }}>
-                          |<br />
-                          <span className="marker">75L</span>
-                        </span>
-                        <span className="tick" style={{ left: "50%" }}>
-                          |<br />
-                          <span className="marker">100L</span>
-                        </span>
-                        <span
-                          className="tick d-none d-sm-table-cell"
-                          style={{ left: "62.5%" }}>
-                          |<br />
-                          <span className="marker">125L</span>
-                        </span>
-                        <span className="tick" style={{ left: "75%" }}>
-                          |<br />
-                          <span className="marker">150L</span>
-                        </span>
-                        <span
-                          className="tick d-none d-sm-table-cell"
-                          style={{ left: "87.5%" }}>
-                          |<br />
-                          <span className="marker">175L</span>
-                        </span>
-                        <span className="tick" style={{ left: "100%" }}>
-                          |<br />
-                          <span className="marker">200L</span>
-                        </span>
-                      </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="20000000"
+                      step="100000"
+                      value={loanAmount}
+                      onChange={handleSliderChange}
+                      className="ui-slider-range"
+                      style={{ width: "100%" }}
+                    />
+                    <div id="loanamountsteps" className="steps">
+                      <span className="tick" style={{ left: "2%" }}>
+                        |<br />
+                        <span className="marker">0</span>
+                      </span>
+                      <span
+                        className="tick d-none d-sm-table-cell"
+                        style={{ left: "14%" }}>
+                        |<br />
+                        <span className="marker">25L</span>
+                      </span>
+                      <span className="tick" style={{ left: "26%" }}>
+                        |<br />
+                        <span className="marker">50L</span>
+                      </span>
+                      <span
+                        className="tick d-none d-sm-table-cell"
+                        style={{ left: "38%" }}>
+                        |<br />
+                        <span className="marker">75L</span>
+                      </span>
+                      <span className="tick" style={{ left: "50%" }}>
+                        |<br />
+                        <span className="marker">100L</span>
+                      </span>
+                      <span
+                        className="tick d-none d-sm-table-cell"
+                        style={{ left: "62%" }}>
+                        |<br />
+                        <span className="marker">125L</span>
+                      </span>
+                      <span className="tick" style={{ left: "74%" }}>
+                        |<br />
+                        <span className="marker">150L</span>
+                      </span>
+                      <span
+                        className="tick d-none d-sm-table-cell"
+                        style={{ left: "86%" }}>
+                        |<br />
+                        <span className="marker">175L</span>
+                      </span>
+                      <span className="tick" style={{ left: "98%" }}>
+                        |<br />
+                        <span className="marker">200L</span>
+                      </span>
                     </div>
 
                     {/* Interest Rate */}
@@ -152,7 +145,6 @@ export const EMICalculator = () => {
                         htmlFor="loaninterest">
                         Interest Rate
                       </label>
-
                       <div className="col-lg-6">
                         <div className="input-group">
                           <input
