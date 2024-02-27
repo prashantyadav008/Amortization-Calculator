@@ -2,11 +2,15 @@ import React, { useState } from "react";
 
 import "../../assets/css/jquery-ui.css";
 import "../../assets/css/calculator.css";
+import "../../assets/css/custom.css";
 
 export const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(20000000); // Default: ₹25,00,000
-  const [interestRate, setInterestRate] = useState(10.5); // Default: 10.5%
+  const [loanAmount, setLoanAmount] = useState(5000000); // Default: ₹50,00,000
+  const [interestRate, setInterestRate] = useState(10); // Default: 10.5%
   const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
+
+  const loanAmountNumber = Array.from({ length: 9 }, (_, index) => index);
+  const rangeNumber = Array.from({ length: 7 }, (_, index) => index);
 
   const handleLoanAmountChange = (e) => {
     const regex = /^(?:100(?:\.0+)?|\d{0,2}(?:\.\d+)?|0(?:\.\d+)?)$/;
@@ -30,6 +34,20 @@ export const EMICalculator = () => {
     }
   };
 
+  const handleDurationChange = (e) => {
+    const regex = /^(?:100(?:\.0+)?|\d{0,2}(?:\.\d+)?|0(?:\.\d+)?)$/;
+
+    if (
+      (e.target.value !== "" && regex.test(e.target.value)) ||
+      e.target.value >= 0
+    ) {
+      setLoanTenure({
+        value: e.target.value,
+        unit: loanTenure.unit,
+      });
+    }
+  };
+
   const handleLoanTenureChange = (e) => {
     const value = e.target.value;
 
@@ -45,6 +63,20 @@ export const EMICalculator = () => {
   const handleSliderChange = (e) => {
     const amount = parseInt(e.target.value);
     setLoanAmount(amount);
+  };
+
+  const amountTrackStyle = {
+    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${loanAmount / 200000}%,
+                #ccc ${loanAmount / 200000}%, #ccc 100%)`,
+  };
+
+  const percentageTrackStyle = {
+    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${((interestRate - 5) / 15) * 100}%, #ccc ${((interestRate - 5) / 15) * 100}%, #ccc 100%)`,
+  };
+
+  const durationTrackStyle = {
+    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${(loanTenure.value / (loanTenure.unit === "year" ? 30 : 360)) * 100}%,
+                #ccc ${(loanTenure.value / (loanTenure.unit === "year" ? 30 : 360)) * 100}%, #ccc 100%)`,
   };
 
   return (
@@ -71,7 +103,7 @@ export const EMICalculator = () => {
                             id="loanamount"
                             name="loanamount"
                             value={loanAmount}
-                            type="number"
+                            type="tel"
                             onChange={handleLoanAmountChange}
                           />
                           <div className="input-group-append">
@@ -89,53 +121,21 @@ export const EMICalculator = () => {
                       value={loanAmount}
                       onChange={handleSliderChange}
                       className="ui-slider-range"
-                      style={{ width: "100%" }}
+                      style={amountTrackStyle}
                     />
+
                     <div id="loanamountsteps" className="steps">
-                      <span className="tick" style={{ left: "2%" }}>
-                        |<br />
-                        <span className="marker">0</span>
-                      </span>
-                      <span
-                        className="tick d-none d-sm-table-cell"
-                        style={{ left: "14%" }}>
-                        |<br />
-                        <span className="marker">25L</span>
-                      </span>
-                      <span className="tick" style={{ left: "26%" }}>
-                        |<br />
-                        <span className="marker">50L</span>
-                      </span>
-                      <span
-                        className="tick d-none d-sm-table-cell"
-                        style={{ left: "38%" }}>
-                        |<br />
-                        <span className="marker">75L</span>
-                      </span>
-                      <span className="tick" style={{ left: "50%" }}>
-                        |<br />
-                        <span className="marker">100L</span>
-                      </span>
-                      <span
-                        className="tick d-none d-sm-table-cell"
-                        style={{ left: "62%" }}>
-                        |<br />
-                        <span className="marker">125L</span>
-                      </span>
-                      <span className="tick" style={{ left: "74%" }}>
-                        |<br />
-                        <span className="marker">150L</span>
-                      </span>
-                      <span
-                        className="tick d-none d-sm-table-cell"
-                        style={{ left: "86%" }}>
-                        |<br />
-                        <span className="marker">175L</span>
-                      </span>
-                      <span className="tick" style={{ left: "98%" }}>
-                        |<br />
-                        <span className="marker">200L</span>
-                      </span>
+                      {loanAmountNumber.map((number) => (
+                        <span
+                          key={number}
+                          className="tick"
+                          style={{
+                            left: parseInt(2) + parseInt(12 * number) + "%",
+                          }}>
+                          |<br />
+                          <span className="marker">{25 * number}L</span>
+                        </span>
+                      ))}
                     </div>
 
                     {/* Interest Rate */}
@@ -159,62 +159,34 @@ export const EMICalculator = () => {
                             <span className="input-group-text">%</span>
                           </div>
                         </div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          step="0.1"
-                          value={interestRate}
-                          onChange={(e) =>
-                            setInterestRate(parseFloat(e.target.value))
-                          }
-                        />
                       </div>
                     </div>
 
-                    <div className="loanInterestSlider">
-                      <div
-                        id="loaninterestslider"
-                        className="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                        <div
-                          className="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min"
-                          style={{ width: "26.6667%" }}></div>
-                        <span
-                          tabIndex="0"
-                          className="ui-slider-handle ui-corner-all ui-state-default"
-                          style={{ left: "26.6667%" }}></span>
-                      </div>
+                    <input
+                      type="range"
+                      min="5"
+                      max="20"
+                      step="0.25"
+                      value={interestRate}
+                      onChange={(e) =>
+                        setInterestRate(parseFloat(e.target.value))
+                      }
+                      className="ui-slider-range"
+                      style={percentageTrackStyle}
+                    />
 
-                      <div id="loanintereststeps" className="steps">
-                        <span className="tick" style={{ left: "0%" }}>
+                    <div id="loanamountsteps" className="steps">
+                      {rangeNumber.map((number) => (
+                        <span
+                          key={number}
+                          className="tick"
+                          style={{
+                            left: parseInt(2) + parseInt(16 * number) + "%",
+                          }}>
                           |<br />
-                          <span className="marker">5</span>
+                          <span className="marker">{5 + 2.5 * number}%</span>
                         </span>
-                        <span className="tick" style={{ left: "16.67%" }}>
-                          |<br />
-                          <span className="marker">7.5</span>
-                        </span>
-                        <span className="tick" style={{ left: "33.34%" }}>
-                          |<br />
-                          <span className="marker">10</span>
-                        </span>
-                        <span className="tick" style={{ left: "50%" }}>
-                          |<br />
-                          <span className="marker">12.5</span>
-                        </span>
-                        <span className="tick" style={{ left: "66.67%" }}>
-                          |<br />
-                          <span className="marker">15</span>
-                        </span>
-                        <span className="tick" style={{ left: "83.34%" }}>
-                          |<br />
-                          <span className="marker">17.5</span>
-                        </span>
-                        <span className="tick" style={{ left: "100%" }}>
-                          |<br />
-                          <span className="marker">20</span>
-                        </span>
-                      </div>
+                      ))}
                     </div>
 
                     {/* Loan Tenure */}
@@ -234,12 +206,7 @@ export const EMICalculator = () => {
                               name="loanterm"
                               value={loanTenure.value}
                               type="tel"
-                              onChange={(e) =>
-                                setLoanTenure({
-                                  ...loanTenure,
-                                  value: e.target.value,
-                                })
-                              }
+                              onChange={handleDurationChange}
                             />
                             <div
                               className="input-group-append "
@@ -281,64 +248,41 @@ export const EMICalculator = () => {
                             </div>
                           </div>
                         </div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="30"
-                          value={loanTenure.value}
-                          onChange={(e) =>
-                            setLoanTenure({
-                              ...loanTenure,
-                              value: parseInt(e.target.value),
-                            })
-                          }
-                        />
                       </div>
                     </div>
 
-                    <div className="loanTermSlider">
-                      <div
-                        id="loantermslider"
-                        className="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                        <div
-                          className="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min"
-                          style={{ width: "66.6667%" }}></div>
-                        <span
-                          tabIndex="0"
-                          className="ui-slider-handle ui-corner-all ui-state-default"
-                          style={{ left: "66.6667%" }}></span>
-                      </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max={loanTenure.unit == "year" ? 30 : 360}
+                      step="0.50"
+                      value={loanTenure.value}
+                      onChange={(e) =>
+                        setLoanTenure({
+                          ...loanTenure,
+                          value: parseInt(e.target.value),
+                        })
+                      }
+                      className="ui-slider-range"
+                      style={durationTrackStyle}
+                    />
 
-                      <div id="loantermsteps" className="steps">
-                        <span className="tick" style={{ left: "0%" }}>
+                    <div id="loanamountsteps" className="steps">
+                      {rangeNumber.map((number) => (
+                        <span
+                          key={number}
+                          className="tick"
+                          style={{
+                            left: parseInt(2) + parseInt(16 * number) + "%",
+                          }}>
                           |<br />
-                          <span className="marker">0</span>
+                          <span className="marker">
+                            {loanTenure.unit == "year"
+                              ? 5 * number
+                              : 5 * 12 * number}
+                          </span>
                         </span>
-                        <span className="tick" style={{ left: "16.67%" }}>
-                          |<br />
-                          <span className="marker">5</span>
-                        </span>
-                        <span className="tick" style={{ left: "33.33%" }}>
-                          |<br />
-                          <span className="marker">10</span>
-                        </span>
-                        <span className="tick" style={{ left: "50%" }}>
-                          |<br />
-                          <span className="marker">15</span>
-                        </span>
-                        <span className="tick" style={{ left: "66.67%" }}>
-                          |<br />
-                          <span className="marker">20</span>
-                        </span>
-                        <span className="tick" style={{ left: "83.33%" }}>
-                          |<br />
-                          <span className="marker">25</span>
-                        </span>
-                        <span className="tick" style={{ left: "100%" }}>
-                          |<br />
-                          <span className="marker">30</span>
-                        </span>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </form>
