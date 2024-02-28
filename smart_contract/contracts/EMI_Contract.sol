@@ -5,7 +5,7 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 
-contract BasicContract {
+contract EMI_Contract {
     using Math for uint256;
     uint256 private constant Decimal8 = 10 ** 8;
     uint256 private constant Decimal18 = 10 ** 18; // 1e18
@@ -13,6 +13,7 @@ contract BasicContract {
     // months = 60 months
     // numerator is for [{r(1+r)^n}]
     // denominator is for [{(1+r)^n}-1]
+    // calculate emi using the formula with numerator and denominator value
     function calculate(
         uint256 principalAmt,
         uint256 interest,

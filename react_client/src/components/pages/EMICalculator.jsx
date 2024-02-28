@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import "../../assets/css/jquery-ui.css";
-import "../../assets/css/calculator.css";
-import "../../assets/css/custom.css";
+import { Home } from "../Home";
+import { ContractMethods } from "../smart_contract/ContractMethods";
 
 export const EMICalculator = () => {
   const [loanAmount, setLoanAmount] = useState(5000000); // Default: ₹50,00,000
@@ -11,6 +10,20 @@ export const EMICalculator = () => {
 
   const loanAmountNumber = Array.from({ length: 9 }, (_, index) => index);
   const rangeNumber = Array.from({ length: 7 }, (_, index) => index);
+
+  const amountTrackStyle = {
+    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${loanAmount / 200000}%,
+                #ccc ${loanAmount / 200000}%, #ccc 100%)`,
+  };
+
+  const percentageTrackStyle = {
+    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${((interestRate - 5) / 15) * 100}%, #ccc ${((interestRate - 5) / 15) * 100}%, #ccc 100%)`,
+  };
+
+  const durationTrackStyle = {
+    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${(loanTenure.value / (loanTenure.unit === "year" ? 30 : 360)) * 100}%,
+                #ccc ${(loanTenure.value / (loanTenure.unit === "year" ? 30 : 360)) * 100}%, #ccc 100%)`,
+  };
 
   const handleLoanAmountChange = (e) => {
     const regex = /^(?:100(?:\.0+)?|\d{0,2}(?:\.\d+)?|0(?:\.\d+)?)$/;
@@ -52,7 +65,7 @@ export const EMICalculator = () => {
     const value = e.target.value;
 
     let duration = document.getElementById("loanterm").value;
-    let newValue = value == "year" ? duration / 12 : duration * 12;
+    let newValue = value === "year" ? duration / 12 : duration * 12;
 
     setLoanTenure({
       value: newValue,
@@ -65,22 +78,34 @@ export const EMICalculator = () => {
     setLoanAmount(amount);
   };
 
-  const amountTrackStyle = {
-    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${loanAmount / 200000}%,
-                #ccc ${loanAmount / 200000}%, #ccc 100%)`,
-  };
+  useEffect(() => {
+    setAllValues();
+  }, [loanAmount, interestRate, loanTenure]);
 
-  const percentageTrackStyle = {
-    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${((interestRate - 5) / 15) * 100}%, #ccc ${((interestRate - 5) / 15) * 100}%, #ccc 100%)`,
-  };
+  const setAllValues = async () => {
+    let principal = loanAmount;
+    let interest = interestRate * 100;
+    let duration =
+      loanTenure.unit == "year" ? loanTenure.value * 12 : loanTenure.value;
 
-  const durationTrackStyle = {
-    background: `linear-gradient(to right, #ed8c2b 0%, #ed8c2b ${(loanTenure.value / (loanTenure.unit === "year" ? 30 : 360)) * 100}%,
-                #ccc ${(loanTenure.value / (loanTenure.unit === "year" ? 30 : 360)) * 100}%, #ccc 100%)`,
+    let contract = await ContractMethods();
+    let result = contract.getEMI(principal, interest, duration);
+
+    console.log(
+      "fdsfsdkfhkjsdf->>> ",
+
+      principal,
+      interest,
+      duration,
+
+      "\t\t result ->>> ",
+      result
+    );
   };
 
   return (
     <>
+      <Home />
       <div className="calculatorcontainer">
         <div className="emicalculatorcontainer">
           <div id="loanformcontainer" className="row">
