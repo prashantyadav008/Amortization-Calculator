@@ -2,15 +2,15 @@ import { ethers } from "hardhat";
 const hre = require("hardhat");
 
 async function main() {
-  //Deploy BasicContract Contract
-  const Token = await ethers.getContractFactory("BasicContract");
+  //Deploy EMI_Contract Contract
+  const Token = await ethers.getContractFactory("EMI_Contract");
   const token = await Token.deploy();
 
   await token.deployTransaction.wait(5);
 
   await hre.run("verify:verify", {
     address: token.address,
-    contract: "contracts/BasicContract.sol:BasicContract",
+    contract: "contracts/EMI_Contract.sol:EMI_Contract",
   });
 
   console.log("Basic Contract Address-> ", token.address);
