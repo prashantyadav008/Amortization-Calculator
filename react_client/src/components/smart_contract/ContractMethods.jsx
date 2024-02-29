@@ -4,16 +4,24 @@ export const ContractMethods = async () => {
   const { emi } = await ContractInstance();
 
   const getEMI = async (principal, rate, duration) => {
-    let owner = await emi.methods
+    let emiDetail = await emi.methods
       .calculateEMI(principal, rate, duration)
       .call()
       .then((result) => {
-        let emi = result[0];
-        let monthPrincipal = result[1];
-        let monthInterest = result[2];
-        let remaining = result[3];
+        let monthPrincipal = result[1].map((principal) => {
+          return Number(principal);
+        });
+
+        let monthInterest = result[2].map((interest) => {
+          return Number(interest);
+        });
+
+        let remaining = result[3].map((remaining) => {
+          return Number(remaining);
+        });
+
         return {
-          emi: emi,
+          emi: Number(result[0]),
           monthPrincipal: monthPrincipal,
           monthInterest: monthInterest,
           remaining: remaining,
@@ -24,9 +32,7 @@ export const ContractMethods = async () => {
         return false;
       });
 
-    console.log("owner-->", owner);
-
-    return owner;
+    return emiDetail;
   };
 
   return {

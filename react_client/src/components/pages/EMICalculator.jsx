@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import { Home } from "../Home";
 import { ContractMethods } from "../smart_contract/ContractMethods";
+import { EMIGraph } from "./EMIGraph";
 
 export const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(5000000); // Default: ₹50,00,000
+  const [loanAmount, setLoanAmount] = useState(5000000); // Default: $50,00,000
   const [interestRate, setInterestRate] = useState(10); // Default: 10.5%
   const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
+
+  const [emiDetail, setEmiDetail] = useState(); // Default: $50,00,000
 
   const loanAmountNumber = Array.from({ length: 9 }, (_, index) => index);
   const rangeNumber = Array.from({ length: 7 }, (_, index) => index);
@@ -91,21 +94,13 @@ export const EMICalculator = () => {
     let contract = await ContractMethods();
     let result = contract.getEMI(principal, interest, duration);
 
-    console.log(
-      "fdsfsdkfhkjsdf->>> ",
-
-      principal,
-      interest,
-      duration,
-
-      "\t\t result ->>> ",
-      result
-    );
+    setEmiDetail(result);
   };
 
   return (
     <>
       <Home />
+
       <div className="calculatorcontainer">
         <div className="emicalculatorcontainer">
           <div id="loanformcontainer" className="row">
@@ -132,7 +127,7 @@ export const EMICalculator = () => {
                             onChange={handleLoanAmountChange}
                           />
                           <div className="input-group-append">
-                            <span className="input-group-text">$/₹</span>
+                            <span className="input-group-text">$/$</span>
                           </div>
                         </div>
                       </div>
@@ -311,6 +306,12 @@ export const EMICalculator = () => {
                     </div>
                   </div>
                 </form>
+
+                <EMIGraph
+                  principal={loanAmount}
+                  interest={loanTenure}
+                  emiDetail={emiDetail}
+                />
               </div>
             </div>
           </div>
