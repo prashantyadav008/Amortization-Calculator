@@ -19,18 +19,25 @@ export const EMIGraph = (props) => {
   const chartOptions = {
     chart: {
       type: "pie",
-      margin: 0, // Remove default margin
-      spacing: [0, 0, 0, 0], // Remove default spacing
+      margin: 40,
+      spacing: [0, 0, 0, 0],
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
-      height: 294,
+      width: 255,
+      height: 290,
+      textAlign: "center",
+      backgroundColor: "rgba(0, 0, 0, 0)",
     },
     title: {
       text: "Break-up of Total Payment",
+      style: {
+        font: "bold 12px Lato, Helvetica Neue, Helvetica, Arial, sans-serif",
+      },
+      y: 30, // Move the title downwards
     },
     tooltip: {
-      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{point.y}%",
     },
     accessibility: {
       point: {
@@ -43,13 +50,14 @@ export const EMIGraph = (props) => {
         cursor: "pointer",
         dataLabels: {
           enabled: true,
-          format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+          format: "{point.percentage:.1f} %", // Show percentage in data labels
+          distance: -30, // Move data labels towards the center of the pie
         },
+        showInLegend: true, // Show data labels in legend
       },
     },
     series: [
       {
-        name: "Share",
         colorByPoint: true,
         data: [
           {
@@ -65,9 +73,17 @@ export const EMIGraph = (props) => {
         ],
       },
     ],
+    credits: {
+      enabled: false,
+    },
+    exporting: {
+      enabled: false,
+    },
+    legend: {
+      enabled: false,
+    },
   };
 
-  // Render the chart after component mount
   useEffect(() => {
     Highcharts.chart("emipiechart", chartOptions);
   }, []);
@@ -86,9 +102,9 @@ export const EMIGraph = (props) => {
     let totalPrincipal = emiDetail.emi * years;
     let totalInterest = totalPrincipal - props.principal;
 
-    setEMIMonth(emiDetail.emi);
-    setTotalInterest(totalInterest);
-    setPrincipalInterest(totalPrincipal);
+    setEMIMonth(emiDetail.emi.toLocaleString("en-IN"));
+    setTotalInterest(totalInterest.toLocaleString("en-IN"));
+    setPrincipalInterest(totalPrincipal.toLocaleString("en-IN"));
 
     setEachTotalInterest(emiDetail.monthPrincipal);
     setEachTotalPrincipal(emiDetail.monthInterest);
@@ -101,6 +117,7 @@ export const EMIGraph = (props) => {
         <div
           id="emipaymentsummary"
           className="col-sm-5 col-md-6 no-gutter-left no-gutter-right">
+          {" "}
           <div id="emiamount">
             <h4>Loan EMI</h4>
             <p>
@@ -127,7 +144,7 @@ export const EMIGraph = (props) => {
 
         <div
           id="emipiechart"
-          class="no-gutter-left no-gutter-right col-sm-7 col-md-6 highcharts-container"
+          className="no-gutter-left no-gutter-right col-sm-7 col-md-6 highcharts-container"
           data-highcharts-chart="0"
           style={{ overflow: "hidden" }}></div>
       </div>
