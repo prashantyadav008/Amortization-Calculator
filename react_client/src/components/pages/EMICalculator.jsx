@@ -122,12 +122,12 @@ export const EMICalculator = () => {
                             className="form-control"
                             id="loanamount"
                             name="loanamount"
-                            value={loanAmount}
+                            value={loanAmount.toLocaleString("en-IN")}
                             type="tel"
                             onChange={handleLoanAmountChange}
                           />
                           <div className="input-group-append">
-                            <span className="input-group-text">$/$</span>
+                            <span className="input-group-text">$</span>
                           </div>
                         </div>
                       </div>
@@ -246,7 +246,7 @@ export const EMICalculator = () => {
                                     autoComplete="off"
                                     checked={loanTenure.unit === "year"}
                                     onChange={handleLoanTenureChange}
-                                  />
+                                  />{" "}
                                   Yr
                                 </label>
                                 <label
@@ -261,7 +261,7 @@ export const EMICalculator = () => {
                                     autoComplete="off"
                                     checked={loanTenure.unit === "month"}
                                     onChange={handleLoanTenureChange}
-                                  />
+                                  />{" "}
                                   Mo
                                 </label>
                               </div>
