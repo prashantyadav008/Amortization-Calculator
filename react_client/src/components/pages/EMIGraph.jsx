@@ -12,103 +12,101 @@ export const EMIGraph = (props) => {
   const [emiMonth, setEMIMonth] = useState();
   const [totalInterest, setTotalInterest] = useState();
   const [principalInterest, setPrincipalInterest] = useState();
-  const [eachTotalInterest, setEachTotalInterest] = useState();
-  const [eachTotalPrincipal, setEachTotalPrincipal] = useState();
-  const [remainingAmount, setRemainingAmount] = useState();
-
-  const chartOptions = {
-    chart: {
-      type: "pie",
-      margin: 40,
-      spacing: [0, 0, 0, 0],
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      width: 255,
-      height: 290,
-      textAlign: "center",
-      backgroundColor: "rgba(0, 0, 0, 0)",
-    },
-    title: {
-      text: "Break-up of Total Payment",
-      style: {
-        font: "bold 12px Lato, Helvetica Neue, Helvetica, Arial, sans-serif",
-      },
-      y: 30, // Move the title downwards
-    },
-    tooltip: {
-      pointFormat: "{point.y}%",
-    },
-    accessibility: {
-      point: {
-        valueSuffix: "%",
-      },
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: "pointer",
-        dataLabels: {
-          enabled: true,
-          format: "{point.percentage:.1f} %", // Show percentage in data labels
-          distance: -30, // Move data labels towards the center of the pie
-        },
-        showInLegend: true, // Show data labels in legend
-      },
-    },
-    series: [
-      {
-        colorByPoint: true,
-        data: [
-          {
-            name: "Principal Loan Amount",
-            y: 46.3,
-            color: "#88A825",
-          },
-          {
-            name: "Total Interest",
-            y: 53.7,
-            color: "#ED8C2B",
-          },
-        ],
-      },
-    ],
-    credits: {
-      enabled: false,
-    },
-    exporting: {
-      enabled: false,
-    },
-    legend: {
-      enabled: false,
-    },
-  };
-
-  useEffect(() => {
-    Highcharts.chart("emipiechart", chartOptions);
-  }, []);
 
   useEffect(() => {
     setAllValues();
   }, [props]);
 
   const setAllValues = async () => {
-    let emiDetail = await props.emiDetail;
+    let monthlyEMI = props.monthlyEMI;
     let years =
       props.interest.unit == "year"
         ? props.interest.value * 12
         : props.interest.value;
 
-    let totalPrincipal = emiDetail.emi * years;
+    let totalPrincipal = monthlyEMI * years;
     let totalInterest = totalPrincipal - props.principal;
 
-    setEMIMonth(emiDetail.emi.toLocaleString("en-IN"));
+    let graphInterest = (totalInterest / totalPrincipal) * 100;
+    let graphPrinicpal = 100 - graphInterest;
+
+    setEMIMonth(monthlyEMI.toLocaleString("en-IN"));
     setTotalInterest(totalInterest.toLocaleString("en-IN"));
     setPrincipalInterest(totalPrincipal.toLocaleString("en-IN"));
 
-    setEachTotalInterest(emiDetail.monthPrincipal);
-    setEachTotalPrincipal(emiDetail.monthInterest);
-    setRemainingAmount(emiDetail.remaining);
+    const chartOptions = {
+      chart: {
+        type: "pie",
+        margin: 40,
+        spacing: [0, 0, 0, 0],
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        width: 255,
+        height: 290,
+        textAlign: "center",
+        backgroundColor: "rgba(0, 0, 0, 0)",
+      },
+      title: {
+        text: "Break-up of Total Payment",
+        style: {
+          font: "bold 12px Lato, Helvetica Neue, Helvetica, Arial, sans-serif",
+        },
+        y: 30, // Move the title downwards
+      },
+      tooltip: {
+        pointFormat: "{point.y}%",
+      },
+      accessibility: {
+        enabled: false,
+        point: {
+          valueSuffix: "%",
+        },
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          dataLabels: {
+            enabled: true,
+            format: "{point.percentage:.1f} %", // Show percentage in data labels
+            distance: -30, // Move data labels towards the center of the pie
+          },
+          showInLegend: true, // Show data labels in legend
+          center: ["50%", "50%"], // Center the pie chart within its container
+        },
+      },
+      series: [
+        {
+          colorByPoint: true,
+          data: [
+            {
+              name: "Principal Loan Amount",
+              y: graphPrinicpal,
+              // y: 55,
+              color: "#88A825",
+            },
+            {
+              name: "Total Interest",
+              y: graphInterest,
+              // y: 45,
+              color: "#ED8C2B",
+            },
+          ],
+        },
+      ],
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: false,
+      },
+      legend: {
+        enabled: true,
+      },
+    };
+
+    Highcharts.chart("emipiechart", chartOptions);
   };
 
   return (
@@ -145,8 +143,7 @@ export const EMIGraph = (props) => {
         <div
           id="emipiechart"
           className="no-gutter-left no-gutter-right col-sm-7 col-md-6 highcharts-container"
-          data-highcharts-chart="0"
-          style={{ overflow: "hidden" }}></div>
+          data-highcharts-chart="0"></div>
       </div>
     </>
   );

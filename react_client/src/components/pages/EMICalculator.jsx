@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Home } from "../Home";
 import { ContractMethods } from "../smart_contract/ContractMethods";
 import { EMIGraph } from "./EMIGraph";
+import { EMIBarTable } from "./EMIBarTable";
 
 export const EMICalculator = () => {
   const [loanAmount, setLoanAmount] = useState(5000000); // Default: $50,00,000
   const [interestRate, setInterestRate] = useState(10); // Default: 10.5%
   const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
 
+  const [monthlyEMI, setMonthlyEMI] = useState(); // Default: $50,00,000
   const [emiDetail, setEmiDetail] = useState(); // Default: $50,00,000
 
   const loanAmountNumber = Array.from({ length: 9 }, (_, index) => index);
@@ -94,7 +96,10 @@ export const EMICalculator = () => {
     let contract = await ContractMethods();
     let result = contract.getEMI(principal, interest, duration);
 
-    setEmiDetail(result);
+    let newResult = await result;
+
+    setMonthlyEMI(newResult.emi);
+    setEmiDetail(newResult);
   };
 
   return (
@@ -306,17 +311,35 @@ export const EMICalculator = () => {
                     </div>
                   </div>
                 </form>
-
-                <EMIGraph
-                  principal={loanAmount}
-                  interest={loanTenure}
-                  emiDetail={emiDetail}
-                />
+                {monthlyEMI > 0 ? (
+                  <EMIGraph
+                    principal={loanAmount}
+                    interest={loanTenure}
+                    monthlyEMI={monthlyEMI}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
+          </div>
+
+          <div id="emipaymenttable">
+            {"ss " + monthlyEMI}
+            {monthlyEMI > 0 ? (
+              <EMIBarTable
+                principal={loanAmount}
+                interest={loanTenure}
+                monthlyEMI={monthlyEMI}
+                emiDetail={emiDetail}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
     </>
   );
 };
+//
