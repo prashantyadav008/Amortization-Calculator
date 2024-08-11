@@ -9,12 +9,12 @@ HighchartsExporting(Highcharts);
 HighchartsExportData(Highcharts);
 
 export const EMIBarTable = (props) => {
-  // const [emiMonth, setEMIMonth] = useState();
-  // const [totalInterest, setTotalInterest] = useState();
-  // const [principalInterest, setPrincipalInterest] = useState();
-  // const [eachTotalInterest, setEachTotalInterest] = useState();
-  // const [eachTotalPrincipal, setEachTotalPrincipal] = useState();
-  // const [remainingAmount, setRemainingAmount] = useState();
+  const [emiMonth, setEMIMonth] = useState();
+  const [totalInterest, setTotalInterest] = useState();
+  const [principalInterest, setPrincipalInterest] = useState();
+  const [eachTotalInterest, setEachTotalInterest] = useState();
+  const [eachTotalPrincipal, setEachTotalPrincipal] = useState();
+  const [remainingAmount, setRemainingAmount] = useState();
 
   useEffect(() => {
     setAllValues();
@@ -30,13 +30,13 @@ export const EMIBarTable = (props) => {
     let totalPrincipal = monthlyEMI * years;
     let totalInterest = totalPrincipal - props.principal;
 
-    // setEMIMonth(emiDetail.emi.toLocaleString("en-IN"));
-    // setTotalInterest(totalInterest.toLocaleString("en-IN"));
-    // setPrincipalInterest(totalPrincipal.toLocaleString("en-IN"));
+    setEMIMonth(emiDetail.emi.toLocaleString("en-IN"));
+    setTotalInterest(totalInterest.toLocaleString("en-IN"));
+    setPrincipalInterest(totalPrincipal.toLocaleString("en-IN"));
 
-    // setEachTotalInterest(emiDetail.monthPrincipal);
-    // setEachTotalPrincipal(emiDetail.monthInterest);
-    // setRemainingAmount(emiDetail.remaining);
+    setEachTotalInterest(emiDetail.monthPrincipal);
+    setEachTotalPrincipal(emiDetail.monthInterest);
+    setRemainingAmount(emiDetail.remaining);
   };
 
   return (
@@ -223,20 +223,6 @@ export const EMIBarTable = (props) => {
                   </tbody>
                 </table>
               </div>
-            </td>
-          </tr>
-          <tr className="row no-margin yearlypaymentdetails">
-            <td id="year2025" className="col-2 col-lg-1 paymentyear toggle">
-              2025
-            </td>
-            <td className="col-3 col-sm-2 currency">₹ 1,00,900</td>
-            <td className="col-3 col-sm-2 currency">₹ 4,38,936</td>
-            <td className="col-sm-3 d-none d-sm-table-cell currency">
-              ₹ 5,39,836
-            </td>
-            <td className="col-4 col-sm-3 currency">₹ 48,21,659</td>
-            <td className="col-lg-1 d-none d-lg-table-cell paidtodateyear">
-              3.57%
             </td>
           </tr>
         </tbody>

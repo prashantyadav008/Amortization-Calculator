@@ -324,18 +324,19 @@ export const EMICalculator = () => {
             </div>
           </div>
 
-          <div id="emipaymenttable">
-            {"ss " + monthlyEMI}
-            {monthlyEMI > 0 ? (
-              <EMIBarTable
-                principal={loanAmount}
-                interest={loanTenure}
-                monthlyEMI={monthlyEMI}
-                emiDetail={emiDetail}
-              />
-            ) : (
-              <></>
-            )}
+          <div id="emipaymentdetails">
+            <div id="emipaymenttable">
+              {monthlyEMI > 0 ? (
+                <EMIBarTable
+                  principal={loanAmount}
+                  interest={loanTenure}
+                  monthlyEMI={monthlyEMI}
+                  emiDetail={emiDetail}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
       </div>
