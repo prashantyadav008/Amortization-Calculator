@@ -1,3 +1,5 @@
+<!-- @format -->
+
 ## Simply Setup Hardhat
 
 These packages will help you in both small and large projects. They will assist you in testing, generating code coverage, determining contract size, and calculating contract gas fees/prices in USD.
@@ -43,7 +45,7 @@ So make sure to check your package's compatibility with other packages and use t
 
     npm install --save @openzeppelin/contracts @openzeppelin/contracts-upgradeable @openzeppelin/hardhat-upgrades@1.28.0
 
-## For Hardhat Setps: 
+## For Hardhat Setps:
 
     npx hardhat
 
@@ -98,7 +100,7 @@ PRIVATE_KEY : You can obtain your private key from your public address in MetaMa
 
 ## Add Ethereum Network into Metamask
 
-### Test Network 
+### Test Network
 
     Metamask Network Parameters
     Network Name: Goerli test network
@@ -140,10 +142,10 @@ Verify: npx hardhat verify --network polygon_mumbai <token.address>
     Currency Symbol: MATIC
     Block Explorer URL: https://polygonscan.com/
 
-### Deploy 
-    
+### Deploy
+
     npx hardhat run --network matic scripts/deploy.ts
 
 ### Verify
-    
+
     npx hardhat verify --network matic <token.address>
