@@ -1,3 +1,5 @@
+/** @format */
+
 import { Web3 } from "web3";
 import swal from "sweetalert";
 
@@ -66,11 +68,11 @@ export const WalletConnection = () => {
                 chainId: Web3.utils.toHex(
                   parseInt(process.env.REACT_APP_ChainId)
                 ),
-                rpcUrls: [process.env.REACT_APP_ALCHEMY_POLYGON_API_KEY],
-                chainName: process.env.REACT_APP_ALCHEMY_POLYGON_NAME,
+                rpcUrls: [process.env.REACT_APP_ALCHEMY_SEPOLIA_API_KEY],
+                chainName: process.env.REACT_APP_ALCHEMY_SEPOLIA_NAME,
                 nativeCurrency: {
-                  name: process.env.REACT_APP_ALCHEMY_POLYGON_NAME,
-                  symbol: process.env.REACT_APP_ALCHEMY_POLYGON_SYMBOL, // 2-6 characters long
+                  name: process.env.REACT_APP_ALCHEMY_SEPOLIA_NAME,
+                  symbol: process.env.REACT_APP_ALCHEMY_SEPOLIA_SYMBOL, // 2-6 characters long
                   decimals: 18,
                 },
                 blockExplorerUrls: [

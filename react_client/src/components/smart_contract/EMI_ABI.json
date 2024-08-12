@@ -1,34 +1,71 @@
 [
   {
     "inputs": [
-      { "internalType": "uint256", "name": "principalAmt", "type": "uint256" },
-      { "internalType": "uint256", "name": "interest", "type": "uint256" },
-      { "internalType": "uint256", "name": "months", "type": "uint256" },
-      { "internalType": "uint256", "name": "numerator", "type": "uint256" },
-      { "internalType": "uint256", "name": "denominator", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "principal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interest",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "months",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interestOnlyPeriod",
+        "type": "uint256"
+      }
     ],
-    "name": "calculate",
+    "name": "amortizationTable",
     "outputs": [
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" },
-      { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "principal", "type": "uint256" },
-      { "internalType": "uint256", "name": "interest", "type": "uint256" },
-      { "internalType": "uint256", "name": "months", "type": "uint256" }
-    ],
-    "name": "calculateEMI",
-    "outputs": [
-      { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "emi",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalInterest",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalPrincipal",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "monthPrincipal",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "monthInterest",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "remaining",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "loanPaidTillDate",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct ICalculateEMI.EMITable",
+        "name": "",
+        "type": "tuple"
+      }
     ],
     "stateMutability": "pure",
     "type": "function"
@@ -37,15 +74,145 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "remainingAmount",
+        "name": "principal",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "penaltyRate", "type": "uint256" },
-      { "internalType": "uint256", "name": "daysLate", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "interest",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "months",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interestOnlyPeriod",
+        "type": "uint256"
+      }
     ],
-    "name": "calculatePenalty",
+    "name": "calculateEMI",
     "outputs": [
-      { "internalType": "uint256", "name": "penaltyAmount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "principal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interest",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "months",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interestOnlyPeriod",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "firstIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculateEMITable",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "monthDifference",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "principalAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interestAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "principal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interest",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "months",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "interestOnlyPeriod",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "firstIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "balance",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculateMinimumPrepayment",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "monthDifference",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "pure",
     "type": "function"

@@ -14,7 +14,7 @@ dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.17",
+    version: "0.8.19",
     settings: {
       optimizer: {
         enabled: true,
@@ -37,7 +37,8 @@ const config: HardhatUserConfig = {
     },
     hardhat: {},
 
-    polygon_mumbai: {
+    polygon_mumbai:
+    {
       url: process.env.ALCHEMY_POLYGON_API_KEY,
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -29,7 +31,7 @@ export const Home = () => {
             Looks like your current network selection is not supported. Please{" "}
             <span className="fw-semibold">
               <Link onClick={switchNetwork}>
-                Switch to the Polygon blockchain network{" "}
+                Switch to the SEPOLIA blockchain network{" "}
               </Link>
               in your wallet to continue,
             </span>
