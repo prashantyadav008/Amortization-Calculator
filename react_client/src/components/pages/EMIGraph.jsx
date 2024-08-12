@@ -1,3 +1,6 @@
+/** @format */
+
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 
 import Highcharts from "highcharts";
@@ -18,13 +21,18 @@ export const EMIGraph = (props) => {
   }, [props]);
 
   const setAllValues = async () => {
+    // eslint-disable-next-line react/prop-types
     let monthlyEMI = props.monthlyEMI;
     let years =
+      // eslint-disable-next-line react/prop-types
       props.interest.unit == "year"
-        ? props.interest.value * 12
-        : props.interest.value;
+        ? // eslint-disable-next-line react/prop-types
+          props.interest.value * 12
+        : // eslint-disable-next-line react/prop-types
+          props.interest.value;
 
     let totalPrincipal = monthlyEMI * years;
+    // eslint-disable-next-line react/prop-types
     let totalInterest = totalPrincipal - props.principal;
 
     let graphInterest = (totalInterest / totalPrincipal) * 100;
