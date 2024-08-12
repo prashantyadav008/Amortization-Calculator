@@ -7,30 +7,29 @@ export const ContractMethods = async () => {
 
   const getEMI = async (principal, rate, duration, interestOnlyPeriod) => {
     let emiDetail = await emi.methods
-      .calculateEMI(principal, rate, duration, interestOnlyPeriod)
+      .amortizationTable(principal, rate, duration, interestOnlyPeriod)
       .call()
       .then((result) => {
-        // eslint-disable-next-line no-unused-vars
-        let monthPrincipal = result[1].map((principal) => {
-          return Number(principal);
-        });
-
-        // eslint-disable-next-line no-unused-vars
-        let monthInterest = result[2].map((interest) => {
-          return Number(interest);
-        });
-
-        // eslint-disable-next-line no-unused-vars
-        let remaining = result[3].map((remaining) => {
-          return Number(remaining);
-        });
-
         return {
-          emi: 1,
+          emi: Number(result[0]),
+          interest: Number(result[1]),
+          totalInterestPrincipal: Number(result[2]),
+          monthPrincipal: result[3].map((value) => {
+            return Number(value);
+          }),
+          monthInterest: result[4].map((value) => {
+            return Number(value);
+          }),
+          remaining: result[5].map((value) => {
+            return Number(value);
+          }),
+          loanPaidTillDate: result[6].map((value) => {
+            return Number(value) / 100;
+          }),
         };
       })
       .catch((err) => {
-        console.log("getEMI ->>>>>>>>>>>", err);
+        console.log("getEMI error->>>>>>>>>>>", err);
         return false;
       });
 

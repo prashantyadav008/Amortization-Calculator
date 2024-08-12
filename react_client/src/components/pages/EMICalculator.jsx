@@ -9,13 +9,13 @@ import { EMIGraph } from "./EMIGraph";
 import { EMIBarTable } from "./EMIBarTable";
 
 export const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(5000000); // Default: $50,00,000
+  const [loanAmount, setLoanAmount] = useState(100000); // Default: $50,00,000
   const [interestRate, setInterestRate] = useState(10); // Default: 10.5%
-  const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
+  const [loanTenure, setLoanTenure] = useState({ value: 1, unit: "year" }); // Default: 20 years
   const [interestOnlyPeriod, setInterestOnlyPeriod] = useState(0); // Default: 10.5%
 
   const [monthlyEMI, setMonthlyEMI] = useState(); // Default: $50,00,000
-  const [emiDetail, setEmiDetail] = useState(); // Default: $50,00,000
+  const [amortizationTable, setamortizationTable] = useState();
 
   const loanAmountNumber = Array.from({ length: 9 }, (_, index) => index);
   const rangeNumber = Array.from({ length: 7 }, (_, index) => index);
@@ -103,7 +103,8 @@ export const EMICalculator = () => {
   };
 
   useEffect(() => {
-    // setAllValues();
+    setAllValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loanAmount, interestRate, loanTenure, interestOnlyPeriod]);
 
   // eslint-disable-next-line no-unused-vars
@@ -115,12 +116,18 @@ export const EMICalculator = () => {
     let interestPeriod = interestOnlyPeriod;
 
     let contract = await ContractMethods();
-    let result = contract.getEMI(principal, interest, duration, interestPeriod);
+    let result = await contract.getEMI(
+      principal,
+      interest,
+      duration,
+      interestPeriod
+    );
 
     let newResult = await result;
 
     setMonthlyEMI(newResult.emi);
-    setEmiDetail(newResult);
+
+    setamortizationTable(newResult);
   };
 
   return (
@@ -396,12 +403,7 @@ export const EMICalculator = () => {
           <div id="emipaymentdetails">
             <div id="emipaymenttable">
               {monthlyEMI > 0 ? (
-                <EMIBarTable
-                  principal={loanAmount}
-                  interest={loanTenure}
-                  monthlyEMI={monthlyEMI}
-                  emiDetail={emiDetail}
-                />
+                <EMIBarTable emiDetail={amortizationTable} />
               ) : (
                 <></>
               )}
