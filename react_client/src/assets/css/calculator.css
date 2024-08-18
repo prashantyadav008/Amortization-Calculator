@@ -1,3 +1,42 @@
+/** @format */
+.main {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  font-family:
+    Lora,
+    Georgia,
+    Times New Roman,
+    Times,
+    serif;
+}
+.main,
+.sidebar {
+  margin-bottom: 30px;
+}
+.page-header,
+header {
+  border-bottom: 0 none;
+  margin: 0 0 20px;
+  padding-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .page-header h1,
+  h1.entry-title {
+    font-size: 36px;
+  }
+}
+
+.page-header h1,
+h1.entry-title {
+  font-size: 36px;
+  font-weight: 400;
+  border-bottom: 3px double #e8e8e8;
+  margin-top: 0;
+}
+
 .ui-slider-horizontal {
   height: 0.4em !important;
 }
@@ -223,7 +262,7 @@ ul.loanproduct-nav li.active a {
   background: #eee;
 }
 #emipaymenttable {
-  margin: 0;
+  margin: 0px 0px 0px 12px;
   text-align: center;
 }
 #emipaymenttable table {
@@ -405,9 +444,6 @@ span.date {
 .sidebar .widget ul li {
   border-bottom: 1px dashed #ccc !important;
 }
-.sidebar .widget ul li:last-child {
-  border-bottom: 0 none !important;
-}
 .homepagebanner {
   margin: 0 0 15px !important;
 }
@@ -558,4 +594,54 @@ span.date {
   .calculatorcontainer {
     visibility: visible;
   }
+}
+
+.sidebar .widget_nav_menu,
+.sidebar .widget_recent_entries {
+  background: #eee !important;
+}
+
+.sidebar .widget_nav_menu h3 {
+  padding: 0 15px;
+}
+
+.sidebar h3 {
+  text-align: left;
+  font-family:
+    Lato,
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.sidebar .widget ol,
+.sidebar .widget ul {
+  list-style: outside none none;
+  margin-left: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.sidebar .widget ul li {
+  border-bottom: 1px dashed #ccc !important;
+  padding: 0.5em 0;
+  transition: background-color 0.3s ease 0s;
+  list-style: outside none none;
+  text-align: left;
+  padding: 0 15px;
+}
+
+.sidebar .widget li,
+.sidebar .widget ul li a {
+  color: #333;
+  display: inline-block;
+}
+
+.sidebar a {
+  text-decoration: none;
+  background-color: transparent;
+  font-weight: 500;
 }
