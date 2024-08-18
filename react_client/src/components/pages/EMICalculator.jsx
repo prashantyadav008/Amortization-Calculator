@@ -9,9 +9,9 @@ import { EMIGraph } from "./EMIGraph";
 import { EMIBarTable } from "./EMIBarTable";
 
 export const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(100000); // Default: $50,00,000
-  const [interestRate, setInterestRate] = useState(10); // Default: 10.5%
-  const [loanTenure, setLoanTenure] = useState({ value: 3, unit: "year" }); // Default: 20 years
+  const [loanAmount, setLoanAmount] = useState(5000000); // Default: $50,00,000
+  const [interestRate, setInterestRate] = useState(9); // Default: 10.5%
+  const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
   const [interestOnlyPeriod, setInterestOnlyPeriod] = useState(0); // Default: 10.5%
 
   const [monthlyEMI, setMonthlyEMI] = useState(); // Default: $50,00,000
@@ -165,7 +165,11 @@ export const EMICalculator = () => {
                               className="form-control"
                               id="loanamount"
                               name="loanamount"
-                              value={loanAmount.toLocaleString("en-IN")}
+                              value={
+                                loanAmount != 0
+                                  ? loanAmount.toLocaleString("en-IN")
+                                  : 0
+                              }
                               type="tel"
                               onChange={handleLoanAmountChange}
                             />
@@ -181,7 +185,7 @@ export const EMICalculator = () => {
                         min="0"
                         max="20000000"
                         step="100000"
-                        value={loanAmount}
+                        value={loanAmount != 0 ? loanAmount : 0}
                         onChange={handleSliderChange}
                         className="ui-slider-range"
                         style={amountTrackStyle}
@@ -215,7 +219,7 @@ export const EMICalculator = () => {
                               className="form-control"
                               id="loaninterest"
                               name="loaninterest"
-                              value={interestRate}
+                              value={interestRate != 0 ? interestRate : 0}
                               onChange={handleInterestRateChange}
                             />
                             <div className="input-group-append">
@@ -230,7 +234,7 @@ export const EMICalculator = () => {
                         min="5"
                         max="20"
                         step="0.25"
-                        value={interestRate}
+                        value={interestRate != 0 ? interestRate : 0}
                         onChange={(e) =>
                           setInterestRate(parseFloat(e.target.value))
                         }
@@ -266,7 +270,9 @@ export const EMICalculator = () => {
                                 className="form-control"
                                 id="loanterm"
                                 name="loanterm"
-                                value={loanTenure.value}
+                                value={
+                                  loanTenure.value != 0 ? loanTenure.value : 0
+                                }
                                 type="tel"
                                 onChange={handleDurationChange}
                               />
@@ -274,7 +280,7 @@ export const EMICalculator = () => {
                                 className="input-group-append "
                                 data-toggle="buttons">
                                 <div
-                                  className="btn-group btn-group-toggle"
+                                  className="btn-group btn-group-toggle button-border"
                                   data-toggle="buttons">
                                   <label
                                     className={`btn btn-light ${
@@ -320,7 +326,7 @@ export const EMICalculator = () => {
                         min="0"
                         max={loanTenure.unit == "year" ? 30 : 360}
                         step="0.50"
-                        value={loanTenure.value}
+                        value={loanTenure.value != 0 ? loanTenure.value : 0}
                         onChange={(e) =>
                           setLoanTenure({
                             ...loanTenure,
@@ -362,7 +368,9 @@ export const EMICalculator = () => {
                               className="form-control"
                               id="interestOnlyPeriod"
                               name="interestOnlyPeriod"
-                              value={interestOnlyPeriod}
+                              value={
+                                interestOnlyPeriod != 0 ? interestOnlyPeriod : 0
+                              }
                               onChange={handleInterestOnlyPeriodChange}
                             />
                             <div className="input-group-append">
@@ -377,7 +385,7 @@ export const EMICalculator = () => {
                         min="0"
                         max="12"
                         step="1"
-                        value={interestOnlyPeriod}
+                        value={interestOnlyPeriod != 0 ? interestOnlyPeriod : 0}
                         onChange={(e) =>
                           setInterestOnlyPeriod(parseFloat(e.target.value))
                         }
@@ -393,7 +401,7 @@ export const EMICalculator = () => {
                               left: parseInt(2) + parseInt(16 * number) + "%",
                             }}>
                             |<br />
-                            <span className="marker">{0 + 2 * number}%</span>
+                            <span className="marker">{0 + 2 * number}</span>
                           </span>
                         ))}
                       </div>
