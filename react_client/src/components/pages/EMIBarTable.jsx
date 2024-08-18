@@ -8,17 +8,19 @@ export const EMIBarTable = (props) => {
   }, [props]);
 
   const setAllValues = async () => {
-    console.log("EMI Details ->", props?.emiDetail);
+    // eslint-disable-next-line react/prop-types
   };
 
   const { loanPaidTillDate, monthInterest, monthPrincipal, remaining } =
-    props?.emiDetail || {};
+    // eslint-disable-next-line react/prop-types
+    props.emiDetail || {};
 
   const currentMonth = new Date().getMonth(); // Get the current month (0-11)
 
   const renderYearlyDetails = () => {
     let yearlyRows = [];
-    let year = 2024;
+    let year = new Date().getFullYear();
+    let yearChanged = new Date().getFullYear();
     let yearlyPrincipal = 0;
     let yearlyInterest = 0;
     let yearlyRemaining = 0;
@@ -28,12 +30,13 @@ export const EMIBarTable = (props) => {
       yearlyInterest += monthInterest[index];
       yearlyRemaining = remaining[index];
 
-      const monthIndex = (currentMonth + index) % 12;
       const yearOffset = Math.floor((currentMonth + index) / 12);
-      const displayYear = 2024 + yearOffset;
+      const displayYear = year + yearOffset;
 
       // Check if it's January, create yearly summary row
-      if (monthIndex === 0 && index !== 0) {
+      if (yearChanged != displayYear || index == 0) {
+        yearChanged = displayYear;
+
         const totalPayment = yearlyPrincipal + yearlyInterest;
         const paidToDate = loanPaidTillDate[index - 1]; // Previous month's paid to date percentage
 
@@ -41,7 +44,7 @@ export const EMIBarTable = (props) => {
           <React.Fragment key={`year-${displayYear - 1}`}>
             <tr className="row no-margin yearlypaymentdetails">
               <td className="col-2 col-lg-1 paymentyear toggle">
-                {displayYear - 1}
+                {displayYear}
               </td>
               <td className="col-3 col-sm-2 currency">
                 ₹ {yearlyPrincipal.toLocaleString()}
@@ -69,39 +72,6 @@ export const EMIBarTable = (props) => {
         yearlyInterest = monthInterest[index];
         yearlyRemaining = remaining[index];
       }
-
-      // Handle last year
-      if (index === monthPrincipal.length - 1) {
-        const totalPayment = yearlyPrincipal + yearlyInterest;
-        const paidToDate = loanPaidTillDate[index];
-
-        const yearlyRow = (
-          <React.Fragment key={`year-${displayYear}`}>
-            <tr className="row no-margin yearlypaymentdetails">
-              <td className="col-2 col-lg-1 paymentyear toggle">
-                {displayYear}
-              </td>
-              <td className="col-3 col-sm-2 currency">
-                ₹ {yearlyPrincipal.toLocaleString()}
-              </td>
-              <td className="col-3 col-sm-2 currency">
-                ₹ {yearlyInterest.toLocaleString()}
-              </td>
-              <td className="col-sm-3 d-none d-sm-table-cell currency">
-                ₹ {totalPayment.toLocaleString()}
-              </td>
-              <td className="col-4 col-sm-3 currency">
-                ₹ {yearlyRemaining.toLocaleString()}
-              </td>
-              <td className="col-lg-1 d-none d-lg-table-cell paidtodateyear">
-                {paidToDate}%
-              </td>
-            </tr>
-          </React.Fragment>
-        );
-
-        yearlyRows.push(yearlyRow);
-      }
     });
 
     return yearlyRows;
@@ -109,15 +79,34 @@ export const EMIBarTable = (props) => {
 
   const renderMonthlyDetails = () => {
     let monthlyRows = [];
-    let year = 2024;
+    let year = new Date().getFullYear();
+    // eslint-disable-next-line no-unused-vars
+    let yearChanged = new Date().getFullYear();
 
     monthPrincipal.forEach((principal, index) => {
+      // eslint-disable-next-line no-unused-vars
       const monthIndex = (currentMonth + index) % 12;
       const yearOffset = Math.floor((currentMonth + index) / 12);
-      const displayYear = 2024 + yearOffset;
+      // eslint-disable-next-line no-unused-vars
+      const displayYear = year + yearOffset;
 
+      console.log(
+        "\t principal",
+        principal,
+        "\t displayYear",
+        displayYear,
+        "\t yearOffset",
+        yearOffset,
+        "\t monthIndex",
+        monthIndex,
+        "\t index",
+        index
+      );
+
+      // if (yearChanged == displayYear || index == 0) {
+      yearChanged = displayYear;
       const monthRow = (
-        <tr key={`month-${index}`} className="row no-margin">
+        <tr key={`month-${index}`} className="row no-margin ">
           <td className="col-2 col-lg-1 paymentmonthyear">
             {new Date(displayYear, monthIndex).toLocaleString("default", {
               month: "short",
@@ -142,6 +131,7 @@ export const EMIBarTable = (props) => {
       );
 
       monthlyRows.push(monthRow);
+      // }
     });
 
     return monthlyRows;

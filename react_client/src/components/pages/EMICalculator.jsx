@@ -11,7 +11,7 @@ import { EMIBarTable } from "./EMIBarTable";
 export const EMICalculator = () => {
   const [loanAmount, setLoanAmount] = useState(100000); // Default: $50,00,000
   const [interestRate, setInterestRate] = useState(10); // Default: 10.5%
-  const [loanTenure, setLoanTenure] = useState({ value: 1, unit: "year" }); // Default: 20 years
+  const [loanTenure, setLoanTenure] = useState({ value: 3, unit: "year" }); // Default: 20 years
   const [interestOnlyPeriod, setInterestOnlyPeriod] = useState(0); // Default: 10.5%
 
   const [monthlyEMI, setMonthlyEMI] = useState(); // Default: $50,00,000

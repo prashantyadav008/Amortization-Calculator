@@ -18,6 +18,7 @@ export const EMIGraph = (props) => {
 
   useEffect(() => {
     setAllValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
   const setAllValues = async () => {
