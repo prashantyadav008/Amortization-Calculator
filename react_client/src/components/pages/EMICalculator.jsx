@@ -135,9 +135,7 @@ export const EMICalculator = () => {
       <Home />
       <main>
         <div className="page-header">
-          <h1>
-            EMI Calculator for Home Loan, Car Loan &amp; Personal Loan in India
-          </h1>
+          <h1>Amortization Calculator for Interest Only Period</h1>
         </div>
 
         <div className="calculatorcontainer">
