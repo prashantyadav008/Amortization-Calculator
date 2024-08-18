@@ -262,7 +262,7 @@ ul.loanproduct-nav li.active a {
   background: #eee;
 }
 #emipaymenttable {
-  margin: 0px 0px 0px 12px;
+  margin: 0px 12px 0px 12px;
   text-align: center;
 }
 #emipaymenttable table {
@@ -644,4 +644,40 @@ span.date {
   text-decoration: none;
   background-color: transparent;
   font-weight: 500;
+}
+
+.yearlypaymentdetails .toggle-open:before {
+  content: "\f146";
+}
+
+.yearlypaymentdetails .toggle-open:before,
+.yearlypaymentdetails .toggle:before {
+  position: relative;
+  top: 0;
+  left: -3px;
+  display: inline-block;
+  font-family: Font Awesome\5 Free;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.yearlypaymentdetails .toggle:before {
+  content: "\f0fe";
+}
+
+.yearlypaymentdetails .toggle-open:before,
+.yearlypaymentdetails .toggle:before {
+  position: relative;
+  top: 0;
+  left: -3px;
+  display: inline-block;
+  font-family: Font Awesome\5 Free;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+yearlypaymentdetails .toggle:before {
+  content: "\f0fe";
 }

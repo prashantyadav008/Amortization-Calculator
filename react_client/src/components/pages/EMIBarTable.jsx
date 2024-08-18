@@ -1,7 +1,7 @@
 /** @format */
 
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export const EMIBarTable = (props) => {
   useEffect(() => {
@@ -15,6 +15,12 @@ export const EMIBarTable = (props) => {
   const { loanPaidTillDate, monthInterest, monthPrincipal, remaining } =
     // eslint-disable-next-line react/prop-types
     props.emiDetail || {};
+
+  const [openYear, setOpenYear] = useState(null); // State to manage which year is open
+
+  const toggleYear = (yearIndex) => {
+    setOpenYear(openYear === yearIndex ? null : yearIndex);
+  };
 
   const currentMonth = new Date().getMonth(); // Get the current month (0-11)
   const currentYear = new Date().getFullYear(); // Get the current year
@@ -48,9 +54,13 @@ export const EMIBarTable = (props) => {
       if (index === 0 || monthIndex === 0) {
         monthlyRows.push(
           <React.Fragment key={`year-${displayYear}`}>
-            <tr className="row no-margin yearlypaymentdetails">
-              <td className="col-2 col-lg-1 paymentyear toggle">
-                {displayYear}
+            <tr
+              className="row no-margin yearlypaymentdetails"
+              onClick={() => toggleYear(yearOffset)}>
+              <td
+                className="col-2 col-lg-1 paymentyear toggle"
+                style={{ fontSize: "15px" }}>
+                {openYear === yearOffset ? "⊟" : "⊞"} {displayYear}
               </td>
               <td className="col-3 col-sm-2 currency">
                 ₹ {totalPrincipal[yearOffset].toLocaleString()}
@@ -72,35 +82,36 @@ export const EMIBarTable = (props) => {
         );
       }
 
-      const monthRow = (
-        <tr
-          key={`month-${index}`}
-          className="row no-margin"
-          style={{ backgroundColor: "#dedede" }}>
-          <td className="col-2 col-lg-1 paymentmonthyear">
-            {new Date(displayYear, monthIndex).toLocaleString("default", {
-              month: "short",
-            })}
-          </td>
-          <td className="col-3 col-sm-2 currency">
-            ₹ {principal.toLocaleString()}
-          </td>
-          <td className="col-3 col-sm-2 currency">
-            ₹ {monthInterest[index].toLocaleString()}
-          </td>
-          <td className="col-sm-3 d-none d-sm-table-cell currency">
-            ₹ {(principal + monthInterest[index]).toLocaleString()}
-          </td>
-          <td className="col-4 col-sm-3 currency">
-            ₹ {remaining[index].toLocaleString()}
-          </td>
-          <td className="col-lg-1 d-none d-lg-table-cell paidtodatemonthyear">
-            {loanPaidTillDate[index]}%
-          </td>
-        </tr>
-      );
-
-      monthlyRows.push(monthRow);
+      if (openYear === yearOffset) {
+        const monthRow = (
+          <tr
+            key={`month-${index}`}
+            className="row no-margin"
+            style={{ backgroundColor: "#dedede" }}>
+            <td className="col-2 col-lg-1 paymentmonthyear">
+              {new Date(displayYear, monthIndex).toLocaleString("default", {
+                month: "short",
+              })}
+            </td>
+            <td className="col-3 col-sm-2 currency">
+              ₹ {principal.toLocaleString()}
+            </td>
+            <td className="col-3 col-sm-2 currency">
+              ₹ {monthInterest[index].toLocaleString()}
+            </td>
+            <td className="col-sm-3 d-none d-sm-table-cell currency">
+              ₹ {(principal + monthInterest[index]).toLocaleString()}
+            </td>
+            <td className="col-4 col-sm-3 currency">
+              ₹ {remaining[index].toLocaleString()}
+            </td>
+            <td className="col-lg-1 d-none d-lg-table-cell paidtodatemonthyear">
+              {loanPaidTillDate[index]}%
+            </td>
+          </tr>
+        );
+        monthlyRows.push(monthRow);
+      }
     });
 
     return monthlyRows;
