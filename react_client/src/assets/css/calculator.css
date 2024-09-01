@@ -262,7 +262,7 @@ ul.loanproduct-nav li.active a {
   background: #eee;
 }
 #emipaymenttable {
-  margin: 0px 0px 0px 12px;
+  margin: 0px 12px 0px 12px;
   text-align: center;
 }
 #emipaymenttable table {
@@ -634,8 +634,7 @@ span.date {
   padding: 0 15px;
 }
 
-.sidebar .widget li,
-.sidebar .widget ul li a {
+.sidebar .widget li {
   color: #333;
   display: inline-block;
 }
@@ -644,4 +643,14 @@ span.date {
   text-decoration: none;
   background-color: transparent;
   font-weight: 500;
+}
+
+input[type="radio"] {
+  appearance: none; /* Hides the default radio button */
+  -webkit-appearance: none; /* For older versions of Safari */
+}
+
+.button-border {
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
 }
