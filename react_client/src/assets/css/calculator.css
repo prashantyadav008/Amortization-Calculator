@@ -634,8 +634,7 @@ span.date {
   padding: 0 15px;
 }
 
-.sidebar .widget li,
-.sidebar .widget ul li a {
+.sidebar .widget li {
   color: #333;
   display: inline-block;
 }

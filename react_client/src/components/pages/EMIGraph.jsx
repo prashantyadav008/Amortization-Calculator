@@ -24,17 +24,11 @@ export const EMIGraph = (props) => {
   const setAllValues = async () => {
     // eslint-disable-next-line react/prop-types
     let monthlyEMI = props.monthlyEMI;
-    let years =
-      // eslint-disable-next-line react/prop-types
-      props.interest.unit == "year"
-        ? // eslint-disable-next-line react/prop-types
-          props.interest.value * 12
-        : // eslint-disable-next-line react/prop-types
-          props.interest.value;
 
-    let totalPrincipal = monthlyEMI * years;
     // eslint-disable-next-line react/prop-types
-    let totalInterest = totalPrincipal - props.principal;
+    let totalInterest = props.totalInterest;
+    // eslint-disable-next-line react/prop-types
+    let totalPrincipal = Number(props.principal) + Number(totalInterest);
 
     let graphInterest = (totalInterest / totalPrincipal) * 100;
     let graphPrinicpal = 100 - graphInterest;

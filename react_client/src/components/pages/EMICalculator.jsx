@@ -9,12 +9,13 @@ import { EMIGraph } from "./EMIGraph";
 import { EMIBarTable } from "./EMIBarTable";
 
 export const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(5000000); // Default: $50,00,000
-  const [interestRate, setInterestRate] = useState(9); // Default: 10.5%
-  const [loanTenure, setLoanTenure] = useState({ value: 20, unit: "year" }); // Default: 20 years
-  const [interestOnlyPeriod, setInterestOnlyPeriod] = useState(0); // Default: 10.5%
+  const [loanAmount, setLoanAmount] = useState(100000); // Default: $1,00,000
+  const [interestRate, setInterestRate] = useState(10); // Default: 10%
+  const [loanTenure, setLoanTenure] = useState({ value: 1, unit: "year" }); // Default: 1 years
+  const [interestOnlyPeriod, setInterestOnlyPeriod] = useState(0); // Default: 0%
 
   const [monthlyEMI, setMonthlyEMI] = useState(); // Default: $50,00,000
+  const [totalInterest, setTotalInterest] = useState(); // Default: $50,00,000
   const [amortizationTable, setamortizationTable] = useState();
 
   const loanAmountNumber = Array.from({ length: 9 }, (_, index) => index);
@@ -126,6 +127,9 @@ export const EMICalculator = () => {
     let newResult = await result;
 
     setMonthlyEMI(newResult.emi);
+    setTotalInterest(newResult.interest);
+
+    // console.log("getEMI result->>>>>>>>>>>", newResult);
 
     setamortizationTable(newResult);
   };
@@ -163,11 +167,7 @@ export const EMICalculator = () => {
                               className="form-control"
                               id="loanamount"
                               name="loanamount"
-                              value={
-                                loanAmount != 0
-                                  ? loanAmount.toLocaleString("en-IN")
-                                  : 0
-                              }
+                              value={loanAmount != 0 ? loanAmount : 0}
                               type="tel"
                               onChange={handleLoanAmountChange}
                             />
@@ -408,8 +408,8 @@ export const EMICalculator = () => {
                   {monthlyEMI > 0 ? (
                     <EMIGraph
                       principal={loanAmount}
-                      interest={loanTenure}
                       monthlyEMI={monthlyEMI}
+                      totalInterest={totalInterest}
                     />
                   ) : (
                     <></>
@@ -446,7 +446,7 @@ export const EMICalculator = () => {
                       </li>
                       <li className="menu-item menu-item-type-post_type menu-item-object-post ">
                         <a
-                          href="https://www.calculatorsoup.com/calculators/financial/amortization-schedule-calculator.php"
+                          href="https://www.calculatorsoup.com/calculators/financial/amortization-schedule-calculator.php?actions=update&ipv=100,000.00&inper=12&iper=12&irate=10.0000&nper_int=3"
                           target="_blank">
                           If you are not sure about the interest-only period,
                           would you like to check it here?
