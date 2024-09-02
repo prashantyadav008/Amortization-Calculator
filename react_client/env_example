@@ -1,14 +1,4 @@
-# Network Chain ID
-
-REACT_APP_ChainId=11155111
-
- 
-REACT_APP_ALCHEMY_SEPOLIA_NAME=Sepolia test network
 REACT_APP_ALCHEMY_SEPOLIA_API_KEY=https://sepolia.infura.io/v3/
-REACT_APP_ALCHEMY_SEPOLIA_SITE_URL=https://sepolia.etherscan.io
-
-REACT_APP_ALCHEMY_SEPOLIA_SYMBOL=SepoliaETH
 
 # Contract Addresses
-
-EMI_Contract=0xfB4C43077BF2e794D9da6ab5aa8273C06d78ef4A; 
+REACT_APP_EMI_Contract=0xfB4C43077BF2e794D9da6ab5aa8273C06d78ef4A; 
